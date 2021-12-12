@@ -5,7 +5,7 @@ public class Enemy{
   int level;
   int health;
   int baseHealth = 50;
-  int damage; 
+  int damage;
   int baseDamage = 5;
 
   public int getHealth(){return health; }

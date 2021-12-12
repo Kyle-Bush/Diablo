@@ -40,20 +40,23 @@ public class Diablo{
     System.out.println(Kyle);
   }
 
-  public static void PlayerKill(Player Kyle){
+  public static void PlayerKill(){
     System.out.println("you died");
-    stage = 0;
-    Kyle.updateStats(Kyle.getLevel());
+    stage = 1;
   }
   //Tracks Grunt Kills and levels them up
-  public static void Kill(ArrayList<Enemy> Enemy){
+  public static void Kill(){
     Enemy.get(Num).updateStats(Enemy.get(Num).getLevel()+1);
+    if(Num > 0){
+     Random(Num);
+    }
     Stage();
+    UpdateStats();
   }
   //Regular attack for Player against Grunt
-  public static int Regular(Player Kyle, ArrayList<Enemy> Enemy){return (Enemy.get(Num).getHealth() - Kyle.getDamage());}
+  public static int Regular(){return (Enemy.get(Num).getHealth() - Kyle.getDamage());}
   //Power attack, has a 50/50 chance to do double damage
-  public static void Power(Player Kyle, ArrayList<Enemy> Enemy){
+  public static void Power(){
     double random_int = (Math.random());
     if(random_int  >= 0.5){
        Enemy.get(Num).setHealth(Enemy.get(Num).getHealth() - (2*Kyle.getDamage()));
@@ -64,55 +67,71 @@ public class Diablo{
     }
   }
   //Regular attack for Grunt against Player
-  public static int Reg(Player Kyle, ArrayList<Enemy> Enemy){return (Kyle.getHealth() - Enemy.get(Num).getDamage());}
+  public static int Reg(){return (Kyle.getHealth() - Enemy.get(Num).getDamage());}
   //Handles the different ways to damage the Grunt
-  public static void Fight(Player Kyle, ArrayList<Enemy> Enemy){
+  public static void Fight(){
     Scanner in = new Scanner(System.in);
     System.out.println("Choose an attack 1:2 Regular or Power(double damage but 50% chance to miss)");
     int input = in.nextInt();
       if(input == 1){
-        Enemy.get(Num).setHealth(Regular(Kyle, Enemy));
+        Enemy.get(Num).setHealth(Regular());
         System.out.println("You attacked using regular attack doing " + Kyle.getDamage() + "damage");
       } else if(input == 2){
-        Power(Kyle,Enemy);
+        Power();
     }
     System.out.println("Grunt attacks for " + Enemy.get(Num).getDamage());
-    Kyle.setHealth(Reg(Kyle,Enemy));
+    Kyle.setHealth(Reg(),Items.get(FindMaxItemHealth()).getHealth());
   }
   //Entire fight for Grunt
-  public static void Battle(Player Kyle, ArrayList<Enemy> Enemy){
+  public static void Battle(){
     while(Enemy.get(Num).getHealth() > 0 && Kyle.getHealth() > 0){
-      Info(Kyle, Enemy);
-      Fight(Kyle, Enemy);
+      Info();
+      Fight();
       clear();
     }
     if(Enemy.get(Num).getHealth() <= 0){
-      Kyle.updateStats(Kyle.getLevel()+1);
-      Kill(Enemy);
+      Kill();
     } else {
-      PlayerKill(Kyle);
+      PlayerKill();
     }
   }
  //Puase and clear used for proper managing of terminal text
+
+  public static void Random(int creator){
+    int min = 1*creator;
+    int max = 2*creator;
+    int random_int = (int)Math.floor(Math.random()*(max-min+1)+min);
+    double weapon = (Math.random());
+    String rarityString = "";
+    switch (random_int){
+      case 1: rarityString = "Common";
+        break;
+      case 2: rarityString = "Rare";
+        break;
+      case 3: rarityString = "Epic";
+        break;
+      case 4: rarityString = "Legendary";
+        break;
+      default: break;
+    }
+    if(weapon >= 0.5){
+      Sword Sword = new Sword(random_int);
+      Items.add(Sword);
+      System.out.println("You Found a Item!! it is a " + rarityString + " Sword");
+      SwordItemUpdate();
+    }else{
+      Sheild Sheild = new Sheild(random_int);
+      Items.add(Sheild);
+      System.out.println("You Found a Item!! it is a " + rarityString + " Sheild");
+      SheildItemUpdate();
+    }
+  }
   public static void pause(int ms) {
       try {
           Thread.sleep(ms);
       } catch (InterruptedException e) {
           System.err.format("IOException: %s%n", e);
       }
-  }
-  public static void Random(int creator, ArrayList<Items> Items){
-    int min = 1*creator;
-    int max = 2*creator;
-    int random_int = (int)Math.floor(Math.random()*(max-min+1)+min);
-    double weapon = (Math.random());
-    if(weapon >= 0){
-      Sword Sword = new Sword(random_int);
-      Items.add(Sword);
-    }else{
-      Sheild Sheild = new Sheild(random_int);
-      Items.add(Sheild);
-    }
   }
   public static void clear() {
     pause(1000);
