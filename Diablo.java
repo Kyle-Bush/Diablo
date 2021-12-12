@@ -2,37 +2,83 @@ package main;
 import java.util.*;
 
 public class Diablo{
-  //Initilizes stage to be used as a global variable
   static int stage = 1;
   static int Num = 0;
+  static Player Kyle = new Player(1);
+  static ArrayList<Items> Items = new ArrayList<Items>();
+  static ArrayList<Enemy> Enemy = new ArrayList<Enemy>();
+//https://stackoverflow.com/a/5762502
+public static final String ANSI_RESET = "\u001B[0m";
+public static final String ANSI_BLACK = "\u001B[30m";
+public static final String ANSI_RED = "\u001B[31m";
+public static final String ANSI_GREEN = "\u001B[32m";
+public static final String ANSI_YELLOW = "\u001B[33m";
+public static final String ANSI_BLUE = "\u001B[34m";
+public static final String ANSI_PURPLE = "\u001B[35m";
+public static final String ANSI_CYAN = "\u001B[36m";
+public static final String ANSI_WHITE = "\u001B[37m";
+
+
   public static void main(String[] args) {
-    ArrayList<Items> Items = new ArrayList<Items>();
-    Player Kyle = new Player(1);
-    ArrayList<Enemy> Enemy = new ArrayList<Enemy>();
     Grunt Clark = new Grunt(1);
     Enemy.add(Clark);
     MiniBoss Bob = new MiniBoss(1);
     Enemy.add(Bob);
     Boss John = new Boss(1);
     Enemy.add(John);
+    Sword Null = new Sword(0);
+    Items.add(Null);
     while(Kyle.getHealth() > 0){
-      if(stage%10 == 0){
+      if(stage%2 == 0){
         Num = 1;
-        Battle(Kyle, Enemy);
+        Battle();
       }else if(stage%25 == 0){
         Num = 2;
-        Battle(Kyle, Enemy);
+        Battle();
       }else{
         Num = 0;
-        Battle(Kyle, Enemy);
+        Battle();
       }
     }
+  }
+  public static int FindMaxItemDamage(){
+    int max = Items.get(0).getDamage();
+    int maxItemDamage = 0;
+    for(int i = 0; i < Items.size(); i ++){
+      if(Items.get(i).getDamage() > max){
+        max = Items.get(i).getDamage();
+        maxItemDamage = i;
+      }
+    }
+    return maxItemDamage;
+  }
+  public static int FindMaxItemHealth(){
+    int max = Items.get(0).getHealth();
+    int maxItemHealth = 0;
+    for(int i = 0; i < Items.size(); i++){
+      if(Items.get(i).getHealth() > max){
+        max = Items.get(i).getHealth();
+        maxItemHealth = i;
+      }
+    }
+    return maxItemHealth;
+  }
+  public static void SwordItemUpdate(){
+    Kyle.setDamage(Kyle.getDamage(), Items.get(FindMaxItemDamage()).getDamage());
+  }
+  public static void SheildItemUpdate(){
+    Kyle.setHealth(Kyle.getHealth(), Items.get(FindMaxItemHealth()).getHealth());
+  }
+  public static void UpdateStats(){
+    Kyle.setLevel(Kyle.getLevel()+ 1);
+    SwordItemUpdate();
+    SheildItemUpdate();
   }
   //used to track the current stage
   public static void Stage(){ stage ++; }
   //Prints out the info when it is a Fight against a Grunt
-  public static void Info(Player Kyle, ArrayList<Enemy> Enemy){
-    System.out.println("The current stage is "+ stage);
+  public static void Info(){
+    System.out.println("The current stage is "+ stage +"\n");
     System.out.println("Place holder for Grunt");
     System.out.println(Enemy.get(Num));
 
@@ -75,11 +121,11 @@ public class Diablo{
     int input = in.nextInt();
       if(input == 1){
         Enemy.get(Num).setHealth(Regular());
-        System.out.println("You attacked using regular attack doing " + Kyle.getDamage() + "damage");
+        System.out.println(ANSI_CYAN + "You attacked using regular attack doing " + Kyle.getDamage() + "damage" + ANSI_RESET);
       } else if(input == 2){
         Power();
     }
-    System.out.println("Grunt attacks for " + Enemy.get(Num).getDamage());
+    System.out.println(ANSI_RED + "Grunt attacks for " + Enemy.get(Num).getDamage() + ANSI_RESET);
     Kyle.setHealth(Reg(),Items.get(FindMaxItemHealth()).getHealth());
   }
   //Entire fight for Grunt
@@ -96,7 +142,6 @@ public class Diablo{
     }
   }
  //Puase and clear used for proper managing of terminal text
-
   public static void Random(int creator){
     int min = 1*creator;
     int max = 2*creator;
@@ -126,6 +171,10 @@ public class Diablo{
       SheildItemUpdate();
     }
   }
+  public static void ItemShop(){
+    System.out.println("Welcome to the Item shop, Here you can buy ");
+  }
+  //https://stackoverflow.com/a/56546464
   public static void pause(int ms) {
       try {
           Thread.sleep(ms);
