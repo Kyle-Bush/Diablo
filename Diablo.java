@@ -79,10 +79,10 @@ public static final String ANSI_WHITE = "\u001B[37m";
   //Prints out the info when it is a Fight against a Grunt
   public static void Info(){
     System.out.println("The current stage is "+ stage +"\n");
-    System.out.println("Place holder for Grunt");
+    Gruntpic();
     System.out.println(Enemy.get(Num));
 
-    System.out.println("Hero Place holder");
+    PlayerPic();
     System.out.println(Kyle);
   }
 
@@ -174,6 +174,68 @@ public static final String ANSI_WHITE = "\u001B[37m";
   public static void ItemShop(){
     System.out.println("Welcome to the Item shop, Here you can buy ");
   }
+  public static void PlayerPic(){
+System.out.println("                &           @                            ");
+System.out.println("             * &@.            ,@@                        ");
+System.out.println("             (                   @                       ");
+System.out.println("             *  @  @@    @@   @  %                       ");
+System.out.println("             ,   @           @                           ");
+System.out.println("         .    @   ( &       @   &                        ");
+System.out.println("        @    @ %     @   @    &&@@                       ");
+System.out.println("       &@       &  @@@@@@/ /                           @ ");
+System.out.println("     .     @          @@@@@@@@@@@@@@&&&&%%%##((/*..*@    ");
+System.out.println("      &*,     @  %   &                              %    ");
+System.out.println("     ,@    #*& .     &     @  @         #         @ %    ");
+System.out.println("       .  @,   @     &    .            @@      ,    #    ");
+System.out.println("     #          @   %      &           .        (  @#    ");
+System.out.println(" @ &                 %   @    @        @     @      #    ");
+System.out.println("    /             *     #  *          .        (    (    ");
+System.out.println("     @          /    &. #      (.   &     *, @ @    (    ");
+System.out.println("       .         @@@.&.    . @       &    @.        (    ");
+System.out.println("        @ @,,%*  @   &.         .     @     &@@@@@@%(    ");
+System.out.println("       &@          * &.    /          @     %@    @ (    ");
+System.out.println("     @ .&       *  * &.  ..   /  ,  (     @   @ (   #    ");
+System.out.println("                /  ,&&.        @        #      @  @ #    ");
+System.out.println("               %    /&.   %           @ #      ,   /#    ");
+System.out.println("                     &.               @          @  #    ");
+System.out.println("              @      &.       @       @,            %    ");
+System.out.println("                @    &    , .          @         @ (%    ");
+System.out.println("               (     &   ((                         &    ");
+System.out.println("                     & @&@@@@@@@@@@@@@@@@@@@@@@@@@& &    ");
+System.out.println("              #                  @                       ");
+System.out.println("             @                                           ");
+System.out.println("                                  @                      ");
+System.out.println("            ,                                            ");
+System.out.println("           @                       @                     ");
+System.out.println("                                                         ");
+System.out.println("        @%&                         @                    ");
+System.out.println("                                      ,@&                ");
+  }
+public static void Gruntpic(){
+System.out.println("                      /&@@&&@&(,        ");
+System.out.println("              *&/             (&.       ");
+System.out.println("        (  ,@,                  .@.     ");
+System.out.println("      .% ,&.                      %/    ");
+System.out.println("     .% %,               /#        &,   ");
+System.out.println("     &.@                   @        @   ");
+System.out.println("    ,%&                    #*       @   ");                    
+System.out.println("    /@.                    /#/%@@,  @   ");
+System.out.println("    /%            .*%&#/.  (*       @   ");
+System.out.println("    #&            ,        @  .,   (/   ");
+System.out.println("     *#          *.  *.   ,%    /% ,&   ");
+System.out.println("      /%    *@(*&*        &.    ,#  %.  ");
+System.out.println("       (@,.&     @       ./     %%@,&   ");
+System.out.println("      (@. #@.   &.           /@* %/     ");
+System.out.println("     (@.    /%%&@%(**/#%@&(,     #*     ");
+System.out.println("    /#                            @     ");
+System.out.println("   *#                             &     ");
+System.out.println("   @                              ,#    ");
+System.out.println("  #(,,,,,*/((#%%&%&%%#(**..       ,%    ");
+System.out.println("    #(        #@           &.   ,(@@    ");
+System.out.println("  .@          .&          .%         @, ");
+System.out.println("  /&&@&&&&%%%%#            %&/.       /#");
+System.out.println("                                    .,  ");
+}
   //https://stackoverflow.com/a/56546464
   public static void pause(int ms) {
       try {
