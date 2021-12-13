@@ -21,12 +21,5 @@ class Sheild extends Items{
     this.rarity = rarity;
     health = health*rarity;
     damage = 0;
-  }
-  class Null extends Items{
-    Null(int rarity){
-      this.rarity = rarity;
-      health = 0;
-      damage = 0;
-    }
-  }
+   }
 }

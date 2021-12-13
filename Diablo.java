@@ -4,9 +4,11 @@ import java.util.*;
 public class Diablo{
   static int stage = 1;
   static int Num = 0;
+  static int gold = 0;
   static Player Kyle = new Player(1);
   static ArrayList<Items> Items = new ArrayList<Items>();
   static ArrayList<Enemy> Enemy = new ArrayList<Enemy>();
+  static ArrayList<Integer> TotalDamageDone = new ArrayList<Integer>();
 //https://stackoverflow.com/a/5762502
 public static final String ANSI_RESET = "\u001B[0m";
 public static final String ANSI_BLACK = "\u001B[30m";
@@ -17,6 +19,7 @@ public static final String ANSI_BLUE = "\u001B[34m";
 public static final String ANSI_PURPLE = "\u001B[35m";
 public static final String ANSI_CYAN = "\u001B[36m";
 public static final String ANSI_WHITE = "\u001B[37m";
+public static final String ANSI_BOLD = "\033[0;1m";
 
 
   public static void main(String[] args) {
@@ -26,21 +29,31 @@ public static final String ANSI_WHITE = "\u001B[37m";
     Enemy.add(Bob);
     Boss John = new Boss(1);
     Enemy.add(John);
-    Sword Null = new Sword(0);
+    Sheild Null = new Sheild(0);
     Items.add(Null);
     while(Kyle.getHealth() > 0){
-      if(stage%2 == 0){
+      if(stage%10 == 0){
         Num = 1;
         Battle();
       }else if(stage%25 == 0){
         Num = 2;
         Battle();
       }else{
+        SwordItemUpdate();
+        SheildItemUpdate();
         Num = 0;
         Battle();
       }
     }
   }
+  public static int TotalDamageDone() {
+    int sum = 0;
+    for (int i: TotalDamageDone) {
+        sum += i;
+    }
+    System.out.println(sum);
+    return sum;
+ }
   public static int FindMaxItemDamage(){
     int max = Items.get(0).getDamage();
     int maxItemDamage = 0;
@@ -78,7 +91,7 @@ public static final String ANSI_WHITE = "\u001B[37m";
   public static void Stage(){ stage ++; }
   //Prints out the info when it is a Fight against a Grunt
   public static void Info(){
-    System.out.println("The current stage is "+ stage +"\n");
+    System.out.println(ANSI_YELLOW + "The current stage is "+ stage + ANSI_RESET +"\n");
     Gruntpic();
     System.out.println(Enemy.get(Num));
 
@@ -93,6 +106,8 @@ public static final String ANSI_WHITE = "\u001B[37m";
   //Tracks Grunt Kills and levels them up
   public static void Kill(){
     Enemy.get(Num).updateStats(Enemy.get(Num).getLevel()+1);
+    gold = ((Num+2)*stage);
+    System.out.println("You defeated the enemy!! You received " + gold + " gold");
     if(Num > 0){
      Random(Num);
     }
@@ -125,8 +140,13 @@ public static final String ANSI_WHITE = "\u001B[37m";
       } else if(input == 2){
         Power();
     }
+      if(Enemy.get(Num).getHealth() <= 0){
+        Kill();
+      }else{
     System.out.println(ANSI_RED + "Grunt attacks for " + Enemy.get(Num).getDamage() + ANSI_RESET);
+    TotalDamageDone.add(Enemy.get(Num).getDamage());
     Kyle.setHealth(Reg(),Items.get(FindMaxItemHealth()).getHealth());
+   }
   }
   //Entire fight for Grunt
   public static void Battle(){
@@ -171,18 +191,32 @@ public static final String ANSI_WHITE = "\u001B[37m";
       SheildItemUpdate();
     }
   }
-  public static void ItemShop(){
-    System.out.println("Welcome to the Item shop, Here you can buy ");
+  public static void RegenHealth(){
+      if(gold > 50){
+    Kyle.setMaxHealth(Items.get(FindMaxItemHealth()).getHealth());
+  }else{
+    System.out.println("Sorry you are misisng " + (50 - gold) + "gold");
+    pause(2000);
+    clear();
+    ItemShop();
   }
+
+  }
+  public static void ItemShop(){
+    System.out.println("Welcome to the Item shop, Here you can buy different items with the gold collected while killing enemies"+ "\n");
+    System.out.println("Health regen: 50 Gold");
+    //RegenHealth();
+  }
+//https://manytools.org/hacker-tools/convert-images-to-ascii-art/go/ **used to convert all images into chatacters
   public static void PlayerPic(){
-System.out.println("                &           @                            ");
+System.out.println(ANSI_BOLD+ "                &           @                            ");
 System.out.println("             * &@.            ,@@                        ");
 System.out.println("             (                   @                       ");
 System.out.println("             *  @  @@    @@   @  %                       ");
 System.out.println("             ,   @           @                           ");
 System.out.println("         .    @   ( &       @   &                        ");
 System.out.println("        @    @ %     @   @    &&@@                       ");
-System.out.println("       &@       &  @@@@@@/ /                           @ ");
+System.out.println("       &@       &  @@@@@@/ /                             ");
 System.out.println("     .     @          @@@@@@@@@@@@@@&&&&%%%##((/*..*@    ");
 System.out.println("      &*,     @  %   &                              %    ");
 System.out.println("     ,@    #*& .     &     @  @         #         @ %    ");
@@ -209,16 +243,16 @@ System.out.println("            ,                                            ");
 System.out.println("           @                       @                     ");
 System.out.println("                                                         ");
 System.out.println("        @%&                         @                    ");
-System.out.println("                                      ,@&                ");
+System.out.println("                                      ,@&                " + ANSI_RESET);
   }
-public static void Gruntpic(){
+  public static void Gruntpic(){
 System.out.println("                      /&@@&&@&(,        ");
 System.out.println("              *&/             (&.       ");
 System.out.println("        (  ,@,                  .@.     ");
 System.out.println("      .% ,&.                      %/    ");
 System.out.println("     .% %,               /#        &,   ");
 System.out.println("     &.@                   @        @   ");
-System.out.println("    ,%&                    #*       @   ");                    
+System.out.println("    ,%&                    #*       @   ");
 System.out.println("    /@.                    /#/%@@,  @   ");
 System.out.println("    /%            .*%&#/.  (*       @   ");
 System.out.println("    #&            ,        @  .,   (/   ");
@@ -247,8 +281,10 @@ System.out.println("                                    .,  ");
   public static void clear() {
     pause(1000);
     System.out.print("\033[H\033[2J");
+    System.out.println("\f");
     System.out.flush();
  }
+
 }
 
 //javac -d . *.java
