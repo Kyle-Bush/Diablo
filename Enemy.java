@@ -50,7 +50,7 @@ class MiniBoss extends Enemy{
 class Boss extends Enemy{
   Boss(int level){
     this.level = level;
-    health = 10*level*10;
+    health = 10*level*20;
     damage = 10*level*10;
   }
 public String toString(){
